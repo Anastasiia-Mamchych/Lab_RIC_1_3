@@ -187,7 +187,7 @@ class _DepositScreenState extends State<DepositScreen>
                 ),
                 child: Row(
                   children: [
-                    _TypeButton(
+                    TypeToggleButton(
                       label: 'Складний %',
                       subtitle: 'Капіталізація щомісяця',
                       icon: Icons.auto_graph_rounded,
@@ -200,7 +200,7 @@ class _DepositScreenState extends State<DepositScreen>
                         width: 1,
                         height: 60,
                         color: scheme.outlineVariant),
-                    _TypeButton(
+                    TypeToggleButton(
                       label: 'Простий %',
                       subtitle: 'Без капіталізації',
                       icon: Icons.show_chart_rounded,
@@ -422,68 +422,4 @@ class _DepositScreenState extends State<DepositScreen>
   }
 }
 
-class _TypeButton extends StatelessWidget {
-  final String label;
-  final String subtitle;
-  final IconData icon;
-  final bool selected;
-  final Color color;
-  final Color onColor;
-  final VoidCallback onTap;
 
-  const _TypeButton({
-    required this.label,
-    required this.subtitle,
-    required this.icon,
-    required this.selected,
-    required this.color,
-    required this.onColor,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: selected ? color : null,
-            borderRadius: BorderRadius.circular(11),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 20,
-                color: selected ? onColor : scheme.onSurface,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: selected ? onColor : scheme.onSurface,
-                ),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: selected
-                      ? onColor.withValues(alpha: 0.75)
-                      : scheme.onSurface.withValues(alpha: 0.5),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}

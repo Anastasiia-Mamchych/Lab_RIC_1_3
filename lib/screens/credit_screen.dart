@@ -39,6 +39,8 @@ class _CreditScreenState extends State<CreditScreen>
     super.dispose();
   }
 
+  final _resultKey = GlobalKey();
+
   void _calculate() {
     if (!_formKey.currentState!.validate()) return;
 
@@ -58,15 +60,16 @@ class _CreditScreenState extends State<CreditScreen>
     });
 
     Future.delayed(const Duration(milliseconds: 200), () {
-      Scrollable.ensureVisible(
-        _resultKey.currentContext!,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeOut,
-      );
+      final ctx = _resultKey.currentContext;
+      if (ctx != null) {
+        Scrollable.ensureVisible(
+          ctx,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOut,
+        );
+      }
     });
   }
-
-  final _resultKey = GlobalKey();
 
   Future<void> _save() async {
     if (_result == null) return;
@@ -170,7 +173,7 @@ class _CreditScreenState extends State<CreditScreen>
                 ),
                 child: Row(
                   children: [
-                    _TypeButton(
+                    TypeToggleButton(
                       label: 'Ануїтетний',
                       subtitle: 'Фіксований платіж',
                       icon: Icons.calculate_rounded,
@@ -179,7 +182,7 @@ class _CreditScreenState extends State<CreditScreen>
                     ),
                     Container(
                         width: 1, height: 60, color: scheme.outlineVariant),
-                    _TypeButton(
+                    TypeToggleButton(
                       label: 'Диференційований',
                       subtitle: 'Зменшується',
                       icon: Icons.trending_down_rounded,
@@ -380,67 +383,6 @@ class _CreditScreenState extends State<CreditScreen>
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TypeButton extends StatelessWidget {
-  final String label;
-  final String subtitle;
-  final IconData icon;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _TypeButton({
-    required this.label,
-    required this.subtitle,
-    required this.icon,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: selected ? scheme.primary : null,
-            borderRadius: BorderRadius.circular(11),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 20,
-                color: selected ? scheme.onPrimary : scheme.onSurface,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: selected ? scheme.onPrimary : scheme.onSurface,
-                ),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: selected
-                      ? scheme.onPrimary.withValues(alpha: 0.75)
-                      : scheme.onSurface.withValues(alpha: 0.5),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

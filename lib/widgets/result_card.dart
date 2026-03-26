@@ -195,6 +195,75 @@ class SaveSuccessBanner extends StatelessWidget {
 }
 
 
+class TypeToggleButton extends StatelessWidget {
+  final String label;
+  final String subtitle;
+  final IconData icon;
+  final bool selected;
+  final Color? color;
+  final Color? onColor;
+  final VoidCallback onTap;
+
+  const TypeToggleButton({
+    super.key,
+    required this.label,
+    required this.subtitle,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+    this.color,
+    this.onColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final activeColor = color ?? scheme.primary;
+    final activeOnColor = onColor ?? scheme.onPrimary;
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: selected ? activeColor : null,
+            borderRadius: BorderRadius.circular(11),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 20,
+                color: selected ? activeOnColor : scheme.onSurface,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: selected ? activeOnColor : scheme.onSurface,
+                ),
+              ),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: selected
+                      ? activeOnColor.withValues(alpha: 0.75)
+                      : scheme.onSurface.withValues(alpha: 0.5),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class EmptyState extends StatelessWidget {
   final String title;
   final String subtitle;

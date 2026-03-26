@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart' as pp;
 import '../models/calculation_result.dart';
 import '../utils/formatters.dart';
 
@@ -122,7 +122,7 @@ class FileService {
       }
     } catch (_) {}
     try {
-      final downloads = await getDownloadsDirectory();
+      final downloads = await pp.getDownloadsDirectory();
       if (downloads != null && await downloads.exists()) {
         final outDir = Directory('${downloads.path}/CalculatorResults');
         if (!await outDir.exists()) await outDir.create(recursive: true);
@@ -130,7 +130,7 @@ class FileService {
       }
     } catch (_) {}
     try {
-      final docs = await getApplicationDocumentsDirectory();
+      final docs = await pp.getApplicationDocumentsDirectory();
       final outDir = Directory('${docs.path}/CalculatorResults');
       if (!await outDir.exists()) await outDir.create(recursive: true);
       return outDir;
